@@ -1,0 +1,14 @@
+[package]
+name = "randomg"
+version = "0.1.0"
+authors = ["Tronje Krabbe <hi@tron.je>"]
+
+[lib]
+name = "randomg"
+path = "src/lib.rs"
+
+[[bin]]
+name = "randomg"
+path = "src/main.rs"
+
+[dependencies]
