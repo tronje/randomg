@@ -2,7 +2,20 @@ pub mod generators;
 mod tests;
 
 use std::thread;
+use std::time::{SystemTime, UNIX_EPOCH};
+
 use generators::Generator;
+
+
+/// Use the time elapsed since the epoch as a simple seed,
+/// feed that into SplitMix64 to generate, perhaps, a slightly better seed.
+pub fn get_seed() -> u64 {
+    let now = SystemTime::now();
+    let timestamp = now.duration_since(UNIX_EPOCH).unwrap().as_secs();
+    let mut gen = generators::SplitMix64::new(timestamp);
+
+    gen.next()
+}
 
 /// Returns the xoroshiro128+ generator, seeded with `seed`.
 pub fn get_generator(seed: u64) -> generators::Xoroshiro128Plus {
@@ -14,6 +27,14 @@ pub fn get_generator(seed: u64) -> generators::Xoroshiro128Plus {
 /// altering the generator's state!
 pub fn generate<T: Generator>(generator: &mut T) -> u64 {
     generator.next()
+}
+
+pub fn generate_bool<T: Generator>(generator: &mut T) -> bool {
+    if generator.next() % 2 == 0 {
+        true
+    } else {
+        false
+    }
 }
 
 fn to_bytes(long: u64) -> [u8; 8] {
