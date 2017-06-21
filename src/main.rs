@@ -1,15 +1,51 @@
 extern crate randomg;
 
+use randomg::generators::Generator;
+
+struct Man {
+    x: u64,
+    y: u64,
+}
+
+impl Man {
+    fn new() -> Man {
+        Man {
+            x: 0,
+            y: 0,
+        }
+    }
+
+    fn step<T: Generator>(&mut self, gen: &mut T) {
+        if randomg::generate_bool(gen) {
+            if randomg::generate_bool(gen) {
+                self.x += 1;
+            } else {
+                self.x -= 1;
+            }
+        } else {
+            if randomg::generate_bool(gen) {
+                self.y += 1;
+            } else {
+                self.y -= 1;
+            }
+        }
+    }
+}
 
 fn main() {
     // seed with a random number
     // (I rolled a dice, I promise!)
-    let mut gen = randomg::get_generator(4);
+    let mut gen = randomg::get_generator(randomg::get_seed());
 
-    // generate some gibberish
-    let gibberish = randomg::generate_string(100, &mut gen);
-    let more_gibberish = randomg::generate_string(100, &mut gen);
+    let mut man = Man::new();
+    let mut steps = 0u64;
 
-    println!("{}", gibberish);
-    println!("{}", more_gibberish);
+    man.step(&mut gen);
+
+    while !(man.x == 0 && man.y == 0) {
+        man.step(&mut gen);
+        steps += 1;
+    }
+
+    println!("{}", steps);
 }
