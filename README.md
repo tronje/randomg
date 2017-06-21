@@ -2,6 +2,7 @@
 A quick-and-easy pseudorandom number generator, using the
 `xoroshiro128+` algorithm and additionally using the `splitmix64` algorithm
 to seed it.
+
 Please note: pseudorandom numbers are not cryptographically secure.
 *Do not* use this for anything crypto-related!
 
