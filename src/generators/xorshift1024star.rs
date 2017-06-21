@@ -37,7 +37,7 @@ impl Generator for Xorshift1024Star {
 
 impl Xorshift1024Star {
     pub fn jump(&mut self) {
-        let JUMP = [
+        let JUMP: [u64; 16] = [
             0x84242f96eca9c41d, 0xa3c65b8776f96855,
             0x5b34a39f070b5837, 0x4489affce4f31a1e,
             0x2ffeeb0a48316f40, 0xdc2d9891fe68c022,
