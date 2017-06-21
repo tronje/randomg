@@ -9,7 +9,7 @@ pub fn get_generator(seed: u64) -> generators::Xoroshiro128Plus {
     generators::Xoroshiro128Plus::new(seed)
 }
 
-/// Generate one pseudo-random, unsigned 64-bit integer
+/// Generate one pseudorandom, unsigned 64-bit integer
 /// from the generator. Note that it has the side-effect of
 /// altering the generator's state!
 pub fn generate<T: Generator>(generator: &mut T) -> u64 {
@@ -26,7 +26,7 @@ fn to_bytes(long: u64) -> [u8; 8] {
     res
 }
 
-/// Generate `length` pseudo-random bytes from `generator`,
+/// Generate `length` pseudorandom bytes from `generator`,
 /// and then collect them into a `String` using `String::from_utf8_lossy()`,
 /// meaning it may not be valid UTF-8.
 pub fn generate_string<T: Generator>(length: usize,
@@ -56,7 +56,7 @@ pub fn generate_string<T: Generator>(length: usize,
     (*String::from_utf8_lossy(&bytes)).to_owned()
 }    
 
-/// Generate `num` pseudo-random, unsigned 64-bit integers from the generator,
+/// Generate `num` pseudorandom, unsigned 64-bit integers from the generator,
 /// collecting them into a `Vec<u64>`. This method is parallelized, and at the moment
 /// slower than the sequential version... :(
 pub fn generate_many<T: Generator>(num: usize, generator: &mut T) -> Vec<u64> {

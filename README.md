@@ -1,7 +1,9 @@
-# randOMG - fast pseudo-RNG
-A quick-and-easy pseudo-random number generator, using the
+# randOMG - a pseudorandom number generator
+A quick-and-easy pseudorandom number generator, using the
 `xoroshiro128+` algorithm and additionally using the `splitmix64` algorithm
 to seed it.
+Please note: pseudorandom numbers are not cryptographically secure.
+*Do not* use this for anything crypto-related!
 
 Algorithms described [here](http://xoroshiro.di.unimi.it/).
 
