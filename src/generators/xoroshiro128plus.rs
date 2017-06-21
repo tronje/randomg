@@ -1,46 +1,8 @@
+use super::{Generator, SplitMix64};
+
 fn rotl(x: u64, k: i32) -> u64 {
     (x << k) | (x >> (64 - k))
 }
-
-
-/// All a generator needs to be able to do is
-/// generate a `next` value; therefore this trait only
-/// requires a single method, `next()`.
-pub trait Generator {
-    /// The `next` method of a generator generates the 'next'
-    /// value; this means a value is computed from its state,
-    /// and the state is altered to allow a future call to `next()`
-    /// to return a different value, and so on.
-    fn next(&mut self) -> u64;
-}
-
-
-/// splitmix64 generator struct, as described and implemented
-/// in C here: http://xoroshiro.di.unimi.it/
-pub struct SplitMix64 {
-    state: u64,
-}
-
-impl SplitMix64 {
-    pub fn new(seed: u64) -> SplitMix64 {
-        SplitMix64 {
-            state: seed,
-        }
-    }
-}
-
-impl Generator for SplitMix64 {
-    fn next(&mut self) -> u64 {
-        self.state = self.state.overflowing_add(0x9E3779B97F4A7C15).0;
-
-        let mut z: u64 = self.state;
-        z = (z ^ (z >> 30)).overflowing_mul(0xBF58476D1CE4E5B9).0;
-        z = (z ^ (z >> 27)).overflowing_mul(0x94D049BB133111EB).0;
-
-        z ^ (z >> 31)
-    }
-}
-
 
 /// Xoroshiro128+ (xor-rotate-shift-rotate) generator struct, as
 /// described and implemented in C here: http://xoroshiro.di.unimi.it/
@@ -85,7 +47,7 @@ impl Xoroshiro128Plus {
 
         for i in 0..2 {
             for j in 0..64 {
-                if JUMP[i] & 1 << j != 0 {
+                if (JUMP[i] & 1 << j) != 0 {
                     s0 ^= self.state[0];
                     s1 ^= self.state[1];
                 }

@@ -26,6 +26,25 @@ fn to_bytes(long: u64) -> [u8; 8] {
     res
 }
 
+/// Generate `num` pseudorandom bytes from `generator`,
+/// wrapped up in a Vec<u8>.
+pub fn generate_bytes<T: Generator>(num: usize, generator: &mut T) -> Vec<u8> {
+    let mut bytes = Vec::with_capacity(num);
+
+    while bytes.len() < num {
+        let random = generator.next();
+        for byte in to_bytes(random).into_iter() {
+            if bytes.len() < num {
+                bytes.push(*byte);
+            } else {
+                break;
+            }
+        }
+    }
+
+    bytes
+}
+
 /// Generate `length` pseudorandom bytes from `generator`,
 /// and then collect them into a `String` using `String::from_utf8_lossy()`,
 /// meaning it may not be valid UTF-8.
@@ -33,25 +52,7 @@ pub fn generate_string<T: Generator>(length: usize,
                                      generator: &mut T)
                                     -> String {
 
-    // generate length divided by the number of bytes in a u64,
-    // and one extra in case it's not a clean division.
-    let to_generate = (length / 8) + 1;
-    let mut randoms = Vec::with_capacity(to_generate);
-    let mut bytes: Vec<u8> = Vec::with_capacity(length);
-
-    for _ in 0..to_generate {
-        randoms.push(generator.next());
-    }
-
-    for elem in randoms {
-        for byte in to_bytes(elem).into_iter() {
-            if bytes.len() < length {
-                bytes.push(*byte);
-            } else {
-                break;
-            }
-        }
-    }
+    let bytes = generate_bytes(length, generator);
 
     (*String::from_utf8_lossy(&bytes)).to_owned()
 }    
