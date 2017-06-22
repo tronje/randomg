@@ -1,6 +1,6 @@
-pub mod splitmix64;
-pub mod xoroshiro128plus;
-pub mod xorshift1024star;
+mod splitmix64;
+mod xoroshiro128plus;
+mod xorshift1024star;
 
 pub use self::splitmix64::SplitMix64;
 pub use self::xoroshiro128plus::Xoroshiro128Plus;
