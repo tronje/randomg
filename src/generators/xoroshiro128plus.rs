@@ -4,13 +4,18 @@ fn rotl(x: u64, k: i32) -> u64 {
     (x << k) | (x >> (64 - k))
 }
 
-/// Xoroshiro128+ (xor-rotate-shift-rotate) generator struct, as
+/// Xoroshiro128+ (xor-rotate-shift-rotate) generator, as
 /// described and implemented in C here: http://xoroshiro.di.unimi.it/
 pub struct Xoroshiro128Plus {
     state: [u64; 2],
 }
 
 impl Xoroshiro128Plus {
+    /// Create a new xoroshiro128+ generator. It's not simply seeded
+    /// with `seed` - this would be insufficient as `seed` is a `u64`,
+    /// but xoroshiro128+ has 128 bits of state - but a splitmix64
+    /// generator is seeded with this seed, and is then used to
+    /// seed the state for xoroshiro128+.
     pub fn new(seed: u64) -> Xoroshiro128Plus {
         let mut sm64g = SplitMix64::new(seed);
 
@@ -35,10 +40,8 @@ impl Generator for Xoroshiro128Plus {
 }
 
 impl Xoroshiro128Plus {
-    /// Xoroshiro128+ additionally implements the `jump()` method.
-    /// This method's behaviour is identical to calling `next()`
-    /// `2^64` times. Note, however, that it doesn't return anything,
-    /// it's just a 'skip forward' method.
+    /// The effect of this method is equivalent to calling `next`
+    /// `2^64` times.
     pub fn jump(&mut self) {
         let JUMP: [u64; 2] = [0xbeac0467eba5facb, 0xd86b048b86aa9922];
 

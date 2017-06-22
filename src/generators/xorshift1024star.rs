@@ -1,11 +1,18 @@
 use super::{Generator, SplitMix64};
 
+/// Xorshift1024* generator, as described and implemented
+/// in C here: http://xoroshiro.di.unimi.it/
 pub struct Xorshift1024Star {
     state: [u64; 16],
     pointer: usize,
 }
 
 impl Xorshift1024Star {
+    /// Create a new xorshift1024* generator. It's not simply seeded
+    /// with `seed` - this would be insufficient as `seed` is a `u64`,
+    /// but xorshift1024* has 128 bits of state - but a splitmix64
+    /// generator is seeded with this seed, and is then used to
+    /// seed the state for xorshift1024*.
     pub fn new(seed: u64) -> Xorshift1024Star {
         let mut gen = SplitMix64::new(seed);
         let mut state = [0u64; 16];
@@ -36,6 +43,8 @@ impl Generator for Xorshift1024Star {
 }
 
 impl Xorshift1024Star {
+    /// The effect of this method is equivalent to calling `next`
+    /// `2^512` times.
     pub fn jump(&mut self) {
         let JUMP: [u64; 16] = [
             0x84242f96eca9c41d, 0xa3c65b8776f96855,

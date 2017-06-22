@@ -1,6 +1,6 @@
 use super::{Generator};
 
-/// splitmix64 generator struct, as described and implemented
+/// splitmix64 generator, as described and implemented
 /// in C here: http://xoroshiro.di.unimi.it/
 pub struct SplitMix64 {
     state: u64,
@@ -24,4 +24,5 @@ impl Generator for SplitMix64 {
 
         z ^ (z >> 31)
     }
+
 }

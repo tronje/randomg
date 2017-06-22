@@ -29,6 +29,7 @@ pub fn generate<T: Generator>(generator: &mut T) -> u64 {
     generator.next()
 }
 
+/// Generate a pseudorandom boolen value with the help of `generator`.
 pub fn generate_bool<T: Generator>(generator: &mut T) -> bool {
     if generator.next() % 2 == 0 {
         true
