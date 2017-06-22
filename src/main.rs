@@ -3,8 +3,8 @@ extern crate randomg;
 use randomg::generators::Generator;
 
 struct Man {
-    x: u64,
-    y: u64,
+    x: i64,
+    y: i64,
 }
 
 impl Man {
@@ -33,8 +33,6 @@ impl Man {
 }
 
 fn main() {
-    // seed with a random number
-    // (I rolled a dice, I promise!)
     let mut gen = randomg::get_generator(randomg::get_seed());
 
     let mut man = Man::new();

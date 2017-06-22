@@ -10,5 +10,6 @@ path = "src/lib.rs"
 [[bin]]
 name = "randomg"
 path = "src/main.rs"
+doc = false
 
 [dependencies]
