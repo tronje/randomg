@@ -3,8 +3,8 @@ A quick-and-easy pseudorandom number generator library, implementing
 `splitmix64`, `xoroshiro128+` and `xorshift1024*` algorithms.
 
 Please note: pseudorandom numbers are not cryptographically secure
-and you should *absolutely not* use them in that context.
-Use `/dev/random` or `/dev/urandom` instead!
+and thus you should *absolutely not* use them for any kind of critical security/cryptography!
+Use `/dev/random` or `/dev/urandom` instead, after doing your own research!
 
 Algorithms described [here](http://xoroshiro.di.unimi.it/).
 
